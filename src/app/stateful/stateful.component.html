@@ -1,0 +1,33 @@
+<main role="main" class="container">
+
+    <div class="starter-template">
+        <h1>Stateful</h1>
+        <p class="lead">Ejemplo de componente stateful.</p>
+
+
+        <div class="card-deck">
+            <div class="card" *ngFor="let curso of shopModel.shopItems">
+<!--ESTA ES LA PARTE ESTATICA QUE PASAREMOS AL COMPONENTE STATELESS Y LLAMAREMOS AQUI AL STATELESS 
+                <img class="card-img-top" src="{{curso.picture}}" alt="{{curso.title}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{curso.title}}</h5>
+                    <p class="card-text">{{curso.desc}}</p>
+                    <p class="card-text">Precio: {{curso.price}}€</p>
+                    <a href="#" class="btn btn-primary" (click)="clickItem(curso)">Comprar</a>
+                </div>-->
+                <app-stateless [product]="curso" (cursomatriculado)="cursoMatriculado($event)"></app-stateless>
+                <!--llamada al stateless pasando curso, recibimos a cursomatriculado, que va a entregar el evento al metodo que creamos-->
+            </div>
+        </div>    
+    </div>
+    <ul class="list-group">
+        <li class="list-group item disabled">Información matrícula</li>
+        <li *ngFor="let boughtItem of boughtItems"
+        class="list-group-item">{{boughtItem.title}}
+        <div class="badge rounded-pill bg-primary">{{boughtItem.price | currency:"&euro;"}}</div>
+    </li>
+    <li class="list-group-item disabled"><h2>Total: {{finalPrice() | currency:"&euro;"}}</h2></li>
+    </ul>
+</main><!-- /.container -->
+
+

@@ -12,8 +12,14 @@
           <label for="password">Password</label>
           <input formControlName="password">
         </p>
+        <p>
+            <label for="url">Url</label>
+            <input formControlName="url">
+          </p>
         <span *ngIf="formulario.get('user').hasError('required')">Este campo es requerido</span>
         {{formulario.controls.user.errors | json}}
+        <span *ngIf="formulario.get('url').hasError('required')">Inserta url valida</span>
+        {{formulario.controls.url.errors | json}}
 
         <p><button class="button primary" type="submit" [disabled]="!formulario.valid">Submit</button></p>
         </fieldset>

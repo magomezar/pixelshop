@@ -3,7 +3,7 @@
     <div class="starter-template">
         <h1>Stateful</h1>
         <p class="lead">Ejemplo de componente stateful.</p>
-
+        <app-formulariosegundo></app-formulariosegundo>
 
         <div class="card-deck">
             <div class="card" *ngFor="let curso of shopModel.shopItems">
@@ -28,6 +28,13 @@
     </li>
     <li class="list-group-item disabled"><h2>Total: {{finalPrice() | currency:"&euro;"}}</h2></li>
     </ul>
+    <app-confirm></app-confirm>
+    <app-status-cart
+    [price]="finalPrice()"
+    [shopModel]="shopModel.shopItems" 
+    (add)="onConfirm()"
+    ></app-status-cart>
+    <input type="text" (keydown)="onKeyboard($event)"/>
 </main><!-- /.container -->
 
 

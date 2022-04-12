@@ -1,7 +1,9 @@
-import { isNgTemplate } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ConfirmComponent } from '../confirm/confirm.component';
 import { Product } from '../interface/product';
 import { Shop } from '../models/shop.model';
+import { HttpClient, HttpResponse } from '@angular/common/http';//para hacer peticiones
+import { Subscription } from 'rxjs';//para manejar la subscripcion como si fuese un objeto
 
 
 @Component({
@@ -9,17 +11,35 @@ import { Shop } from '../models/shop.model';
   templateUrl: './stateful.component.html',
   styleUrls: ['./stateful.component.css']
 })
-export class StatefulComponent implements OnInit {
+export class StatefulComponent implements OnInit, OnDestroy {
 
+  
+  @ViewChild(ConfirmComponent, {static: false }) confirmChild: ConfirmComponent = new ConfirmComponent;//Instanciar e inicializar ViewChild confirm
 
-  shopModel: any = new Shop();
-  boughtItems?: Array<Product>;//Declarado
+  errorHttp?: boolean;
+  shopModel: any;
+  boughtItems: Array<Product>;//Declarado
+  
+  private shopSubscription: Subscription | undefined;
 
-  constructor() { 
+  constructor(private http: HttpClient) { 
     this.boughtItems = [];//inicializado, durante toda la vida de ejecucion de la aplicacion
+    this.shopModel = {shopItems: []};
   }
 
   ngOnInit(): void {
+    this.shopSubscription = this.http.get('assets/cursos.json').subscribe({
+      next: (respuesta: any) => { this.shopModel.shopItems = respuesta;},
+      error: (respuesta: Response) => { this.errorHttp = true;}
+    });
+
+
+    //this.onGlobalKeyboard();
+  }
+
+  ngOnDestroy(): void {
+    this.shopSubscription?.unsubscribe();
+    document.removeEventListener('keypress', this.onKeyboard);
   }
 
 
@@ -29,7 +49,8 @@ export class StatefulComponent implements OnInit {
 
   cursoMatriculado(_event: Product) {
     this.clickItem(_event);//el evento en el que se ha hecho click es el que recibe
-    
+    this.onConfirm();
+    this.confirmChild.isDisabled = false;
   }
 
   finalPrice() {
@@ -39,9 +60,26 @@ export class StatefulComponent implements OnInit {
       );
      }
      else 
-       return null;
+       return undefined;
   }
-  
+
+  onConfirm() {
+    alert('Has añadido un nuevo curso');
+  }
+
+  onKeyboard(_event: any) {
+    console.log(_event);
+    if (_event.key === 'Enter') {
+      this.onConfirm();
+    }
+  }
+
+  onGlobalKeyboard() {
+    document.addEventListener('keypress', (eventoGlobal) =>{
+      this.onKeyboard(eventoGlobal);
+    })
+  }
+   
   //finalPrice() {
   //  if (this.boughtItems) {
   //    return this.boughtItems.reduce(

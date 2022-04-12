@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 //Añadimos la importacion del input para que se comunique el componente padre e hijo
 //Añadimos un output para devolver los datos con un evento -EventEmitter
 import { Product } from '../interface/product';//importamos product, interface
@@ -6,7 +6,8 @@ import { Product } from '../interface/product';//importamos product, interface
 @Component({
   selector: 'app-stateless',
   templateUrl: './stateless.component.html',
-  styleUrls: ['./stateless.component.css']
+  styleUrls: ['./stateless.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatelessComponent implements OnInit {
 
@@ -31,7 +32,12 @@ export class StatelessComponent implements OnInit {
   }
 
   isDisabled() {
+    console.log(this.product?.title);
     return !!this.disable;
+  }
+
+  mensaje() {
+    alert('¿No te vas a descargar la imagen verdad?');
   }
 
 }

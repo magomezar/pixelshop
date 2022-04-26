@@ -4,6 +4,9 @@ import { Product } from '../interface/product';
 import { Shop } from '../models/shop.model';
 import { HttpClient, HttpResponse } from '@angular/common/http';//para hacer peticiones
 import { Subscription } from 'rxjs';//para manejar la subscripcion como si fuese un objeto
+import { FormularioventanaComponent } from '../formularioventana/formularioventana.component';
+import { FormBuilder } from '@angular/forms';
+
 
 
 @Component({
@@ -13,8 +16,8 @@ import { Subscription } from 'rxjs';//para manejar la subscripcion como si fuese
 })
 export class StatefulComponent implements OnInit, OnDestroy {
 
-  
-  @ViewChild(ConfirmComponent, {static: false }) confirmChild: ConfirmComponent = new ConfirmComponent;//Instanciar e inicializar ViewChild confirm
+  @ViewChild(FormularioventanaComponent, {static: false}) ventanaChild: FormularioventanaComponent = new FormularioventanaComponent(new FormBuilder);
+  //@ViewChild(ConfirmComponent, {static: false }) confirmChild: ConfirmComponent = new ConfirmComponent;//Instanciar e inicializar ViewChild confirm
 
   errorHttp?: boolean;
   shopModel: any;
@@ -50,7 +53,8 @@ export class StatefulComponent implements OnInit, OnDestroy {
   cursoMatriculado(_event: Product) {
     this.clickItem(_event);//el evento en el que se ha hecho click es el que recibe
     this.onConfirm();
-    this.confirmChild.isDisabled = false;
+    //this.confirmChild.isDisabled = false;
+    this.ventanaChild.isDisabled = false;
   }
 
   finalPrice() {

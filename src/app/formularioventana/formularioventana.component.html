@@ -1,0 +1,52 @@
+<!-- Button trigger modal -->
+<button *ngIf="!isDisabled" (click)="showModal=true" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+    <!--[disabled]="isDisabled"-->
+      Confirmar compra
+    </button>
+
+  <!-- Modal -->
+  <div class="modal fade" [ngClass]="{'show':showModal}" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Último paso</h5>
+          <button type="button" (click)="showModal=false" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formulario" (ngSubmit)="onSubmit(formulario)" novalidate>
+            <fieldset id="forms__input">
+
+            <h4>Registro</h4>
+              <div class="mb-3">
+                <p> 
+                  <label for="name" class="form-label">Nombre:</label>
+                  <input formControlName="name" class="form-control">
+                </p> 
+                <p> 
+                  <label for="surname" class="form-label">Apellidos:</label>
+                  <input formControlName="surname" class="form-control">
+                </p> 
+                <p> 
+                  <label for="email" class="form-label">Email:</label>
+                  <input formControlName="email" class="form-control">
+                </p> 
+              </div>
+                    
+            <h6>Todos los campos son requeridos</h6>
+            <button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">Enviar</button>
+                  <!--<button type="submit" class="btn btn-primary" [disabled]="!formulario.valid">Enviar</button>-->
+            </fieldset>
+          </form>
+        </div>
+        <div class="modal-footer">
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
